@@ -4,11 +4,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-import {
-  Cairo,
-  Geist,
-  Geist_Mono,
-} from "next/font/google";
+import { Cairo, Geist, Geist_Mono } from "next/font/google";
+import MusicPlayer from "./components/music-player";
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -30,15 +27,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   applicationName: "JUST US",
-
   title: {
     default: "JUST US | Our Little Universe",
     template: "%s | JUST US",
   },
-
   description:
     "JUST US — عالم خاص بجوج، فيه ألعاب تفاعلية وأسئلة وتحديات ومفاجآت.",
-
   robots: {
     index: false,
     follow: false,
@@ -62,6 +56,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
+        <MusicPlayer />
       </body>
     </html>
   );

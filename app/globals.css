@@ -112,3 +112,41 @@ body {
     animation: none;
   }
 }
+
+/* JUST US — Premium Button Effects */
+
+button:not(:disabled),
+a[role="button"] {
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+@media (hover: hover) {
+  button:not(:disabled):hover,
+  a[role="button"]:hover {
+    filter: brightness(1.12);
+  }
+}
+
+button:not(:disabled):active,
+a[role="button"]:active {
+  transform: scale(0.97);
+  filter: brightness(1.2);
+}
+
+button:focus-visible,
+a[role="button"]:focus-visible {
+  outline: 2px solid #f472b6;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  a[role="button"] {
+    transition: none !important;
+    animation: none !important;
+  }
+}

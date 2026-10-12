@@ -1,8 +1,14 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import { useRouter } from "next/navigation";
+
 import {
   ArrowRight,
   Check,
@@ -58,6 +64,13 @@ type GameRoomProps = {
   gameError?: string;
 };
 
+type TodSound =
+  | "truth"
+  | "dare"
+  | "question"
+  | "answer"
+  | "reveal";
+
 const errorMessages: Record<string, string> = {
   choose:
     "ما قدرناش نختارو السؤال. تأكد من الدور ديالك ومن وجود أسئلة مناسبة.",
@@ -70,6 +83,111 @@ const errorMessages: Record<string, string> = {
   "invalid-answer":
     "كتب جواب بين 1 و2000 حرف.",
 };
+
+// JUST US — Truth or Dare sound effects
+function playTodSound(type: TodSound) {
+  if (typeof window === "undefined") return;
+
+  try {
+    if (
+      localStorage.getItem("just-us-muted") === "true"
+    ) {
+      return;
+    }
+
+    const AudioCtor = window.AudioContext;
+    if (!AudioCtor) return;
+
+    const context = new AudioCtor();
+
+    const sounds: Record<
+      TodSound,
+      {
+        notes: number[];
+        duration: number;
+        volume: number;
+        wave: OscillatorType;
+      }
+    > = {
+      truth: {
+        notes: [523, 659, 784],
+        duration: 0.13,
+        volume: 0.035,
+        wave: "sine",
+      },
+
+      dare: {
+        notes: [220, 330, 440],
+        duration: 0.13,
+        volume: 0.035,
+        wave: "triangle",
+      },
+
+      question: {
+        notes: [440, 554, 659, 880],
+        duration: 0.14,
+        volume: 0.04,
+        wave: "sine",
+      },
+
+      answer: {
+        notes: [620, 830],
+        duration: 0.1,
+        volume: 0.035,
+        wave: "sine",
+      },
+
+      reveal: {
+        notes: [523, 659, 784, 1047],
+        duration: 0.15,
+        volume: 0.045,
+        wave: "sine",
+      },
+    };
+
+    const config = sounds[type];
+    const startTime = context.currentTime;
+
+    config.notes.forEach((frequency, index) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+
+      const start =
+        startTime + index * config.duration;
+
+      oscillator.type = config.wave;
+
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        start
+      );
+
+      gain.gain.setValueAtTime(0.0001, start);
+
+      gain.gain.exponentialRampToValueAtTime(
+        config.volume,
+        start + 0.02
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start + config.duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+
+      oscillator.start(start);
+      oscillator.stop(start + config.duration);
+    });
+
+    window.setTimeout(() => {
+      void context.close().catch(() => {});
+    }, 1500);
+  } catch {
+    // Sounds must never interrupt the game
+  }
+}
 
 export default function GameRoom({
   room,
@@ -88,12 +206,14 @@ export default function GameRoom({
   const [answer, setAnswer] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // Prevent sounds repeating on automatic refresh
+  const lastSoundKey = useRef("");
+
   // =========================================
   // GAME LOGIC
   // =========================================
 
   const isClassic = room.mode === "classic";
-
   const isMyTurn = room.current_turn === userId;
 
   const otherName =
@@ -114,7 +234,7 @@ export default function GameRoom({
     answers.some((a) => a.user_id === userId);
 
   // =========================================
-  // AUTOMATIC SYNC — EVERY 2 SECONDS
+  // AUTOMATIC SYNC
   // =========================================
 
   useEffect(() => {
@@ -129,7 +249,7 @@ export default function GameRoom({
     };
   }, [router]);
 
-  // Unlock controls when server state changes.
+  // Unlock controls when server state changes
   useEffect(() => {
     setBusy(false);
   }, [
@@ -139,10 +259,42 @@ export default function GameRoom({
     gameError,
   ]);
 
-  // Clear the previous answer when a new round starts.
+  // Clear answer when a new round starts
   useEffect(() => {
     setAnswer("");
   }, [room.id, room.round_no]);
+
+  // Play sounds when the game changes phase
+  useEffect(() => {
+    const soundKey =
+      `${room.id}:${room.round_no}:` +
+      `${room.phase}:${room.prompt_id ?? "none"}`;
+
+    if (lastSoundKey.current === soundKey) {
+      return;
+    }
+
+    lastSoundKey.current = soundKey;
+
+    if (room.status !== "playing") {
+      return;
+    }
+
+    if (room.phase === "answer" && prompt) {
+      playTodSound("question");
+    }
+
+    if (room.phase === "reveal") {
+      playTodSound("reveal");
+    }
+  }, [
+    room.id,
+    room.round_no,
+    room.phase,
+    room.prompt_id,
+    room.status,
+    prompt,
+  ]);
 
   // =========================================
   // COPY ROOM CODE
@@ -264,9 +416,7 @@ export default function GameRoom({
         </div>
       )}
 
-      {/* =====================================
-          WAITING FOR SECOND PLAYER
-         ===================================== */}
+      {/* WAITING FOR SECOND PLAYER */}
 
       {room.status !== "playing" ? (
         <div
@@ -286,10 +436,7 @@ export default function GameRoom({
         </div>
       ) : room.phase === "choose" ? (
 
-        /* =====================================
-           CHOOSE TRUTH OR DARE
-           PREMIUM ANIMATED PANEL
-           ===================================== */
+        /* CHOOSE TRUTH OR DARE */
 
         <div
           key={`choose-${room.round_no}`}
@@ -343,9 +490,10 @@ export default function GameRoom({
                       ? "selected"
                       : ""
                   }`}
-                  onClick={() =>
-                    setKind("truth")
-                  }
+                  onClick={() => {
+                    setKind("truth");
+                    playTodSound("truth");
+                  }}
                 >
                   <span>💗</span>
                   <strong>TRUTH</strong>
@@ -360,9 +508,10 @@ export default function GameRoom({
                         ? "selected"
                         : ""
                     }`}
-                    onClick={() =>
-                      setKind("dare")
-                    }
+                    onClick={() => {
+                      setKind("dare");
+                      playTodSound("dare");
+                    }}
                   >
                     <span>🔥</span>
                     <strong>DARE</strong>
@@ -406,6 +555,11 @@ export default function GameRoom({
                 className="tod-game-primary"
                 type="submit"
                 disabled={busy}
+                onClick={() => {
+                  playTodSound(
+                    isClassic ? (kind as "truth" | "dare") : "truth"
+                  );
+                }}
               >
                 {busy
                   ? "كنختارو..."
@@ -424,10 +578,7 @@ export default function GameRoom({
       ) : room.phase === "answer" ||
         room.phase === "reveal" ? (
 
-        /* =====================================
-           QUESTION + ANSWER + REVEAL
-           KEY CHANGES ON EACH PHASE
-           ===================================== */
+        /* QUESTION / ANSWER / REVEAL */
 
         <div
           key={`${room.phase}-${room.round_no}`}
@@ -439,8 +590,6 @@ export default function GameRoom({
               : "02 / YOUR MOMENT"}
           </div>
 
-          {/* QUESTION TYPE */}
-
           <span className="tod-game-type">
             {prompt?.kind === "dare"
               ? "🔥 DARE"
@@ -449,23 +598,19 @@ export default function GameRoom({
             {prompt?.level?.toUpperCase() ?? ""}
           </span>
 
-          {/* ANIMATED QUESTION */}
-
           <h3 className="tod-game-question">
             {prompt?.content ??
               "السؤال ما قدرش يتحمّل. راجع صلاحيات قراءة الأسئلة فـSupabase."}
           </h3>
 
           {room.phase === "answer" ? (
-
-            /* =================================
-               ANSWER PHASE
-               ================================= */
-
             canAnswer && !alreadyAnswered ? (
               <form
                 action={submitTodAnswer}
-                onSubmit={() => setBusy(true)}
+                onSubmit={() => {
+                  setBusy(true);
+                  playTodSound("answer");
+                }}
                 className="tod-game-form"
               >
                 <input
@@ -524,11 +669,6 @@ export default function GameRoom({
               </div>
             )
           ) : (
-
-            /* =================================
-               REVEAL PHASE
-               ================================= */
-
             <>
               <div className="tod-game-answers">
                 {answers.length ? (
@@ -555,7 +695,7 @@ export default function GameRoom({
                 )}
               </div>
 
-              {/* READY SYSTEM — UNCHANGED */}
+              {/* READY SYSTEM UNCHANGED */}
 
               <ReadyPanel
                 key={`${room.id}:${room.round_no}`}
@@ -570,11 +710,6 @@ export default function GameRoom({
           )}
         </div>
       ) : (
-
-        /* =====================================
-           UNKNOWN GAME STATE
-           ===================================== */
-
         <div
           key={`state-${room.phase}-${room.round_no}`}
           className="tod-game-panel tod-game-center"
@@ -590,11 +725,8 @@ export default function GameRoom({
         </div>
       )}
 
-      {/* SYNC FOOTNOTE */}
-
       <div className="tod-game-footnote">
         <RefreshCw size={14} />
-
         المزامنة الحالية كتستعمل تحديث
         تلقائي كل جوج ثواني
       </div>
