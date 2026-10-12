@@ -1,0 +1,13 @@
+/* JUST US Premium: two-player ready confirmation */
+.tod-ready-panel{margin-top:28px;padding:26px;border:1px solid rgba(255,123,193,.23);border-radius:24px;background:linear-gradient(145deg,rgba(255,119,185,.10),rgba(132,66,177,.07));box-shadow:inset 0 1px rgba(255,255,255,.05)}
+.tod-ready-heading{display:flex;align-items:center;justify-content:center;gap:10px;color:#ff9bd0;font-size:clamp(19px,2vw,25px);font-weight:800}
+.tod-ready-description{text-align:center;color:#d3bdd4;margin:12px 0 24px;line-height:1.8}
+.tod-ready-players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.tod-ready-person{min-height:118px;border:1px solid rgba(255,255,255,.1);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:rgba(15,9,22,.45);color:#cdb5d1;transition:all .25s ease}
+.tod-ready-person strong{font-size:16px;color:#fff1fb}.tod-ready-person small{font-size:13px}
+.tod-ready-person.is-ready{border-color:rgba(91,231,175,.48);background:rgba(27,113,85,.14);color:#7aebbd;box-shadow:0 0 24px rgba(63,214,155,.06)}
+.tod-ready-person.is-ready small{color:#7aebbd}
+.tod-ready-button{width:100%;justify-content:center}
+.tod-ready-wait{display:flex;justify-content:center;align-items:center;gap:9px;min-height:60px;border-radius:15px;background:rgba(255,255,255,.055);color:#f5c4e3;text-align:center;padding:12px}
+.tod-ready-error{color:#ffb5c2;text-align:center;margin:0 0 12px}
+@media(max-width:520px){.tod-ready-panel{padding:16px}.tod-ready-players{gap:8px}.tod-ready-person{min-height:108px}.tod-ready-description{font-size:14px}}

@@ -1,0 +1,291 @@
+.tod-game{width:min(1020px,100%);margin:4px auto 65px;position:relative;direction:rtl;color:#fff1fa;animation:tod-game-enter .6s ease both}
+@keyframes tod-game-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.tod-game-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.tod-game-brand{display:flex;align-items:center;gap:14px}.tod-game-brand-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:17px;background:linear-gradient(135deg,#fa66b5,#8e41db);box-shadow:0 10px 38px #f455a72b}.tod-game-brand small{font-size:10px;letter-spacing:3px;color:#c68cad;font-weight:800}.tod-game-brand h2{margin:4px 0 0;font-size:clamp(19px,3vw,27px);font-weight:800}.tod-game-brand h2 span{color:#ff6cb9}.tod-game-live{border:1px solid #4e3447;border-radius:99px;padding:11px 17px;letter-spacing:2px;font-size:10px;font-weight:900;color:#b9e7ce;display:flex;align-items:center;gap:9px}.tod-game-live i{width:7px;height:7px;border-radius:50%;background:#62e6a4;box-shadow:0 0 13px #62e6a4}
+.tod-game-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.tod-game-stats>span{display:flex;align-items:center;gap:8px;background:#ffffff09;border:1px solid #ffffff16;padding:10px 15px;border-radius:99px;color:#d9bcd3;font-size:12px;letter-spacing:1px}.tod-game-stats svg{color:#ff7dbd}.tod-game-stats strong{color:#fff}
+.tod-game-code{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px dashed #a759894e;background:#0d0711bb;padding:12px 16px;border-radius:16px;margin-bottom:22px}.tod-game-code>span{color:#b58da8;font-size:10px;letter-spacing:2px;font-weight:800}.tod-game-code code{font-size:12px;word-break:break-all;flex:1;text-align:center;color:#f7d9e9}.tod-game-code button{border:1px solid #805372;color:#f6d4e8;border-radius:11px;background:#ffffff0c;padding:10px 14px;display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12px}
+.tod-game-panel{border:1px solid #9f60844a;background:radial-gradient(ellipse at 90% 0%,#5c235b54,transparent 55%),linear-gradient(150deg,#251525e8,#100b1ae8);box-shadow:0 28px 80px #0005,inset 0 1px #ffffff14;border-radius:30px;padding:clamp(25px,5vw,54px);position:relative;overflow:hidden}.tod-game-panel:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(125deg,#ffffff0b,transparent 32%)}.tod-game-eyebrow{font-size:11px;letter-spacing:3px;font-weight:900;color:#f995c7;margin-bottom:18px}.tod-game-panel h3{font-size:clamp(25px,4vw,43px);line-height:1.45;margin:0 0 10px;color:#fff2fb;font-weight:800}.tod-game-panel>p{font-size:15px;line-height:1.9;color:#cbb1c6;margin:0 0 26px}.tod-game-center{text-align:center}.tod-game-emoji{font-size:56px;margin-bottom:14px}
+.tod-game-form{display:flex;flex-direction:column;gap:17px}.tod-game-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:12px 0 8px}.tod-game-choice{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;border-radius:23px;min-height:178px;padding:25px 15px;background:#ffffff08;border:1px solid #ffffff1a;color:#f9e3f1;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.tod-game-choice:hover{transform:translateY(-5px);border-color:#ff85c9a0;box-shadow:0 18px 35px #f65cad14}.tod-game-choice.selected{background:linear-gradient(140deg,#ef68af2b,#773dd21c);border-color:#ff7abd;box-shadow:0 0 0 1px #ff7abd2a,inset 0 0 32px #ff66b30c}.tod-game-choice>span{font-size:40px}.tod-game-choice strong{font-size:18px;letter-spacing:3px}.tod-game-choice small{font-size:12px;color:#cda9c3}.tod-game-label{color:#e9c4da;font-weight:700;font-size:13px}.tod-game-select,.tod-game-textarea{font:inherit;color:#fff0fa;border:1px solid #80577388;background:#110b1ad9;border-radius:15px;padding:15px 17px;outline:none;width:100%}.tod-game-select:focus,.tod-game-textarea:focus{border-color:#ff80c0;box-shadow:0 0 0 3px #ff80c018}.tod-game-select option{background:#221329}.tod-game-textarea{resize:vertical;line-height:1.8;min-height:120px}.tod-game-primary{display:inline-flex;justify-content:center;align-items:center;gap:11px;width:100%;border:0;border-radius:15px;padding:17px 25px;background:linear-gradient(105deg,#a349d2,#f75fae);color:white;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 13px 34px #cb43a42e;transition:transform .2s ease,filter .2s ease}.tod-game-primary:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.1)}.tod-game-primary:disabled{opacity:.55;cursor:not-allowed}
+.tod-game-wait{display:flex;align-items:center;justify-content:center;gap:10px;padding:25px 12px;color:#d9b2cc;font-size:14px;text-align:center}.tod-game-spinner{width:17px;height:17px;border:2px solid #ffffff35;border-top-color:#ff73ba;border-radius:50%;animation:tod-game-spin 1s linear infinite}@keyframes tod-game-spin{to{transform:rotate(360deg)}}.tod-game-type{display:inline-block;padding:8px 13px;border-radius:99px;background:#fa6eb21c;border:1px solid #fa6eb25e;color:#ff9acb;font-size:11px;font-weight:800;letter-spacing:2px;margin-bottom:19px}.tod-game-question{padding:15px 0 25px;border-bottom:1px solid #ffffff15;margin-bottom:24px!important}.tod-game-answers{display:grid;gap:14px;margin:20px 0}.tod-game-answer{background:#ffffff09;border:1px solid #ffffff1c;border-radius:17px;padding:20px;text-align:right}.tod-game-answer small{color:#ff9acb;font-weight:800}.tod-game-answer p{white-space:pre-wrap;overflow-wrap:anywhere;color:#f8e4f1;line-height:1.8;margin:10px 0 0}.tod-game-error{padding:15px 18px;border:1px solid #f783a666;background:#6e294137;color:#ffb6ce;border-radius:14px;margin:0 0 16px}.tod-game-footnote{display:flex;align-items:center;justify-content:center;gap:8px;color:#a78ba0;font-size:11px;margin:21px 0}
+.tod-hero-compact{padding-top:12px!important;padding-bottom:22px!important}.tod-hero-compact .tod-symbol,.tod-hero-compact .tod-pills,.tod-hero-compact .tod-lead{display:none!important}.tod-hero-compact h1{font-size:clamp(35px,5vw,58px)!important;margin:10px 0!important}.tod-hero-compact .tod-eyebrow{font-size:10px}
+@media(max-width:650px){.tod-game{padding:0 2px}.tod-game-head{align-items:flex-start}.tod-game-panel{border-radius:22px}.tod-game-choices{gap:10px}.tod-game-choice{min-height:155px;padding:20px 9px}.tod-game-code code{flex-basis:100%;order:2}.tod-game-code button{margin-inline-start:auto}.tod-game-stats>span{font-size:10px;padding:8px 10px}.tod-game-brand h2{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.tod-game,.tod-game-spinner{animation:none}.tod-game-choice,.tod-game-primary{transition:none}}
+
+/* ==========================================
+   JUST US — PREMIUM GAME ANIMATIONS
+   ========================================== */
+
+.tod-game {
+  --tod-accent: #ff79bf;
+  --tod-purple: #ae5ae5;
+}
+
+/* Smooth transition between game phases */
+
+@keyframes tod-premium-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tod-game-panel {
+  isolation: isolate;
+  animation: tod-premium-enter 0.65s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.tod-game-panel:hover {
+  border-color: #ff88c25c;
+  box-shadow:
+    0 28px 85px #0006,
+    0 0 55px #f35ba00b,
+    inset 0 1px #ffffff18;
+}
+
+/* Soft pink glow */
+
+@keyframes tod-soft-glow {
+  0% { opacity: 0.25; }
+  100% { opacity: 0.65; }
+}
+
+.tod-game-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      #ff67b31c,
+      transparent 45%
+    );
+  animation: tod-soft-glow 7s ease-in-out
+    infinite alternate;
+}
+
+.tod-game-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Question reveal animation */
+
+@keyframes tod-question-appear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.tod-game-question {
+  animation: tod-question-appear 0.7s
+    cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* Small heading entrance */
+
+.tod-game-eyebrow,
+.tod-game-type {
+  animation: tod-question-appear 0.5s ease both;
+}
+
+/* Answers reveal one after another */
+
+@keyframes tod-answer-appear {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tod-game-answer {
+  animation: tod-answer-appear 0.55s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.tod-game-answer:nth-child(1) {
+  animation-delay: 0.12s;
+}
+
+.tod-game-answer:nth-child(2) {
+  animation-delay: 0.28s;
+}
+
+.tod-game-answer:hover {
+  border-color: #ff85c26b;
+  background: #ff8ac010;
+  transform: translateY(-2px);
+}
+
+/* Elegant hover effect for game choices */
+
+.tod-game-choice {
+  position: relative;
+  overflow: hidden;
+}
+
+.tod-game-choice.selected {
+  box-shadow:
+    0 0 0 1px #ff7abd2a,
+    0 12px 38px #d95ba21c,
+    inset 0 0 32px #ff66b30c;
+}
+
+.tod-game-choice:active {
+  transform: scale(0.98);
+}
+
+/* Premium animated button shine */
+
+.tod-game-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.tod-game-primary::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 32%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ffffff45,
+    transparent
+  );
+  transform: translateX(-250%) rotate(25deg);
+  transition: transform 0.75s ease;
+  pointer-events: none;
+}
+
+.tod-game-primary:hover:not(:disabled)::after {
+  transform: translateX(650%) rotate(25deg);
+}
+
+.tod-game-primary:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+/* Connection indicator */
+
+@keyframes tod-online-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px #62e6a477;
+  }
+  50% {
+    box-shadow:
+      0 0 17px #62e6a4,
+      0 0 27px #62e6a444;
+  }
+}
+
+.tod-game-live i {
+  animation: tod-online-pulse 2.5s ease-in-out infinite;
+}
+
+/* Room code interactions */
+
+.tod-game-code button {
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tod-game-code button:hover {
+  background: #ff79bf15;
+  border-color: #ff79bf88;
+  transform: translateY(-2px);
+}
+
+/* Waiting screen */
+
+@keyframes tod-emoji-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.tod-game-emoji {
+  animation: tod-emoji-float 3.5s ease-in-out infinite;
+}
+
+/* Keyboard accessibility */
+
+.tod-game-primary:focus-visible,
+.tod-game-choice:focus-visible,
+.tod-game-code button:focus-visible {
+  outline: 3px solid #ffb0db;
+  outline-offset: 4px;
+}
+
+/* Mobile refinements */
+
+@media (max-width: 650px) {
+  .tod-game-panel {
+    padding: 25px 19px;
+  }
+
+  .tod-game-question {
+    font-size: clamp(24px, 6vw, 34px);
+    line-height: 1.6;
+  }
+
+  .tod-game-primary {
+    min-height: 55px;
+  }
+
+  .tod-game-answer {
+    padding: 18px;
+  }
+}
+
+/* Accessibility: reduce motion when requested */
+
+@media (prefers-reduced-motion: reduce) {
+  .tod-game-panel,
+  .tod-game-panel::after,
+  .tod-game-question,
+  .tod-game-eyebrow,
+  .tod-game-type,
+  .tod-game-answer,
+  .tod-game-live i,
+  .tod-game-emoji {
+    animation: none !important;
+  }
+
+  .tod-game-primary::after {
+    display: none;
+  }
+}

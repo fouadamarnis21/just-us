@@ -1,0 +1,114 @@
+
+@import "tailwindcss";
+
+/* =========================================
+   JUST US — PREMIUM DESIGN SYSTEM
+========================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --ju-background: #08060d;
+  --ju-surface: #160e1e;
+  --ju-surface-elevated: #201027;
+
+  /* Brand Colors */
+  --ju-pink: #ec4899;
+  --ju-pink-light: #f9a8d4;
+  --ju-purple: #a855f7;
+
+  /* Typography */
+  --ju-text: #ffffff;
+  --ju-text-muted: #b9a6bf;
+
+  /* Borders */
+  --ju-border: rgba(255, 255, 255, 0.10);
+
+  /* Gradients */
+  --ju-gradient-primary: linear-gradient(
+    135deg,
+    #ec4899 0%,
+    #a855f7 100%
+  );
+
+  /* Shadows */
+  --ju-shadow-pink: 0 12px 40px rgba(236, 72, 153, 0.20);
+}
+
+/* =========================================
+   GLOBAL RESET
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background: var(--ju-background);
+  color: var(--ju-text);
+
+  font-family:
+    var(--font-cairo),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+   SELECTION & FOCUS
+========================================= */
+
+::selection {
+  background: rgba(236, 72, 153, 0.35);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ju-pink-light);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   FLOATING HEART ANIMATION
+========================================= */
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.floating-heart {
+  animation: floating 4s ease-in-out infinite;
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .floating-heart {
+    animation: none;
+  }
+}
